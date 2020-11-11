@@ -21,7 +21,7 @@ import {
 } from "../../style/grid-table-style";
 import { Button } from "../../ui/button";
 import { SearchInput } from "../../ui/searchInput";
-import { GETINTENTION } from "./gql";
+import { GETINTENTION, DELETEINTENTION } from "./gql";
 import { formatDate, pastFutureDates } from "./functions";
 import { ContentView } from "../layout/ContentView";
 
@@ -42,7 +42,7 @@ export const Intentions = (props) => {
     variables: queryVariables,
   });
 
-  //const [erase] = useMutation(REMOVEWORKORDER);
+  const [deleteIntention] = useMutation(DELETEINTENTION);
 
   const [dateFrom, setDateFrom] = useState(addDays(todaysDate, -2));
   const [dateTo, setDateTo] = useState(addDays(todaysDate, 1));
@@ -62,30 +62,6 @@ export const Intentions = (props) => {
   useEffect(() => {
     refetch(queryVariables);
   });
-
-  if (data && data.getIntention) {
-    baseLength = data.getIntention.length;
-  }
-
-  if (keys.length > 1) {
-    for (let i = 0; i < keys.length; i++) {
-      if (baseLength === parseInt(keys[0])) {
-        if (parseInt(keys[i]) === parseInt(keys[i - 1]) - 1) {
-          counter++;
-          if (counter === keys.length - 1) {
-            disableDelete = false;
-          }
-        }
-      } else {
-        disableDelete = true;
-      }
-    }
-  } else if (keys.length === 1) {
-    disableChange = false;
-    if (baseLength === parseInt(keys[0])) {
-      disableDelete = false;
-    }
-  }
 
   /********* CHECKBOX TABLE functions and columns *********/
 
@@ -236,6 +212,34 @@ export const Intentions = (props) => {
 
   /********* CHECKBOX TABLE functions and columns: E N D *********/
 
+  /********* LOGIC THAT CHECKS WHAT CHECKBOXES ARE CLICKED: S T A R T *********/
+  // and decides which button will be active
+
+  if (data && data.getIntention) {
+    baseLength = data.getIntention.length;
+    console.log(data.Intention);
+  }
+
+  if (keys.length > 1) {
+    for (let i = 0; i < keys.length; i++) {
+      if (baseLength === parseInt(keys[0])) {
+        if (parseInt(keys[i]) === parseInt(keys[i - 1]) - 1) {
+          counter++;
+          if (counter === keys.length - 1) {
+            disableDelete = false;
+          }
+        }
+      } else {
+        disableDelete = true;
+      }
+    }
+  } else if (keys.length === 1) {
+    disableChange = false;
+    if (baseLength === parseInt(keys[0])) {
+      disableDelete = false;
+    }
+  }
+
   /********* LOGIC THAT CHECKS WHAT CHECKBOXES ARE CLICKED: E N D *********/
 
   /********* DATE SETTERS functions and date formatter: S T A R T *********/
@@ -296,9 +300,9 @@ export const Intentions = (props) => {
     let i;
     for (i = 0; i < keys.length; i++) {
       const content = {
-        woId: parseInt(keys[i]),
+        iId: parseInt(keys[i]),
       };
-      //erase({ variables: content });
+      deleteIntention({ variables: content });
     }
     refetch(queryVariables);
     keys = [];
@@ -341,7 +345,7 @@ export const Intentions = (props) => {
             </FlexRow>
             <SearchInput
               placeholder="Pretraži po ID-u, Klijentu, Opisu problema ili Statusu"
-              //onSearch={handleSearch}
+              onSearch={handleSearch}
               style={{ marginLeft: "0px", marginTop: "8px" }}
             />
           </ButtonContainer>
@@ -360,7 +364,7 @@ export const Intentions = (props) => {
                 return {
                   onClick: (e) => {
                     if (column.id !== "checkbox" && rowInfo !== undefined) {
-                      //handleItemClick(rowInfo.index);
+                      handleItemClick(rowInfo.index);
                     }
                   },
                 };

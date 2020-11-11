@@ -140,6 +140,22 @@ export const GETINTENTION = gql`
     }
   `;
 
+export const DELETEINTENTION = gql`
+  mutation(
+    $iId: Int
+    ) {
+      removeIntention(
+        iId: $iId
+      ) {
+        iId
+        parisher
+        intent
+        dueDate
+        paid
+      }
+    }
+  `;
+
 export const GETINTENTIONS = gql`
   query{
     getIntentions

@@ -27,6 +27,7 @@
     "jsonwebtoken": "^8.5.1",
     "moment": "^2.24.0",
     "polished": "^3.5.2",
+    "rc-datepicker": "^5.0.16",
     "rc-time-picker": "^3.7.3",
     "react": "^16.13.1",
     "react-apollo": "^3.1.5",
