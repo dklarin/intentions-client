@@ -380,7 +380,7 @@ export const Intentions = (props) => {
               />
               <Button
                 onClick={() =>
-                  props.history.push(`/changeworkorder/${keys[0]}`)
+                  props.history.push(`/updateintention/${keys[0]}`)
                 }
                 children="Izmijeni"
                 disabled={disableChange}

@@ -25,7 +25,7 @@ import DatePicker from "../../ui/datePicker";
 import { TextInput } from "../../ui/textInput";
 import { TextArea } from "../../ui/textArea";
 import { ToggleSwitch } from "../../ui";
-import { GETWORKORDER, ADDINTENTION } from "./gql";
+import { GETWORKORDER, ADDWORKORDER } from "./gql";
 import { GETCLIENTS } from "./popups/gql";
 import { formatDate, pastFutureDates, dynamicSort } from "./functions";
 import { yesNoOptions, statusOptions } from "./options";
@@ -47,7 +47,7 @@ export const WorkOrderNew = (props) => {
     variables: queryVariables,
   });
   const { data: clients, refetch } = useQuery(GETCLIENTS);
-  const [change] = useMutation(ADDINTENTION);
+  const [change] = useMutation(ADDWORKORDER);
 
   const [id, setId] = useState();
   const [mail, setMail] = useState("");

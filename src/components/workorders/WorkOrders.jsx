@@ -21,7 +21,7 @@ import {
 } from "../../style/grid-table-style";
 import { Button } from "../../ui/button";
 import { SearchInput } from "../../ui/searchInput";
-import { GETINTENTION, REMOVEWORKORDER } from "./gql";
+import { GETWORKORDER, REMOVEWORKORDER } from "./gql";
 import { formatDate, pastFutureDates } from "./functions";
 import { ContentView } from "../layout/ContentView";
 
@@ -31,16 +31,14 @@ export const WorkOrders = (props) => {
   const user = localStorage.getItem("username");
 
   const initialQueryVariables = {
-    iId: null,
+    woId: null,
     dueDate: pastFutureDates(-1095),
     dueDate1: pastFutureDates(1),
   };
   const [queryVariables, setQueryVariables] = useState(initialQueryVariables);
-  const { data, refetch, error } = useQuery(GETINTENTION, {
+  const { data, refetch, error } = useQuery(GETWORKORDER, {
     variables: queryVariables,
   });
-
-  //const { data, refetch, error } = useQuery(GETINTENTIONS);
   const [erase] = useMutation(REMOVEWORKORDER);
 
   const [dateFrom, setDateFrom] = useState(addDays(todaysDate, -2));
@@ -58,9 +56,9 @@ export const WorkOrders = (props) => {
   let baseLength;
   let counter = 0;
 
-  /*useEffect(() => {
+  useEffect(() => {
     refetch(queryVariables);
-  });*/
+  });
 
   /********* CHECKBOX TABLE functions and columns *********/
 
@@ -106,8 +104,8 @@ export const WorkOrders = (props) => {
               <input
                 type="checkbox"
                 className="checkbox"
-                checked={state.selected[original.iId] === true}
-                onChange={() => toggleRow(original.iId)}
+                checked={state.selected[original.woId] === true}
+                onChange={() => toggleRow(original.woId)}
                 value={state.selected || ""}
               />
             );
@@ -132,7 +130,7 @@ export const WorkOrders = (props) => {
         },
         {
           Header: "ID",
-          accessor: "iId",
+          accessor: "woId",
           width: 40,
           Cell: (row) => (
             <div
@@ -146,8 +144,8 @@ export const WorkOrders = (props) => {
           ),
         },
         {
-          Header: "Župljanin",
-          accessor: "parisher",
+          Header: "Klijent",
+          accessor: "clientName",
         },
       ],
     },
@@ -170,12 +168,12 @@ export const WorkOrders = (props) => {
           ),
         },
         {
-          Header: "Intencija",
-          accessor: "intent",
+          Header: "Opis problema",
+          accessor: "description",
         },
         {
-          Header: "Plaćeno",
-          accessor: "paid",
+          Header: "Status",
+          accessor: "status",
           width: 110,
           Cell: (row) => (
             <span>
@@ -204,6 +202,21 @@ export const WorkOrders = (props) => {
             </span>
           ),
         },
+        {
+          Header: "Ukupno",
+          accessor: "totalAmount",
+          width: 80,
+          Cell: (row) => (
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "flex-end",
+              }}
+            >
+              {row.value}
+            </div>
+          ),
+        },
       ],
     },
   ];
@@ -213,9 +226,8 @@ export const WorkOrders = (props) => {
   /********* LOGIC THAT CHECKS WHAT CHECKBOXES ARE CLICKED: S T A R T *********/
   // and decides which button will be active
 
-  if (data && data.getIntention) {
-    baseLength = data.getIntention.length;
-    console.log(data.Intention);
+  if (data && data.getWorkOrder) {
+    baseLength = data.getWorkOrder.length;
   }
 
   if (keys.length > 1) {
@@ -267,10 +279,10 @@ export const WorkOrders = (props) => {
   /**
    * search by woid, client, description or status
    */
-  //const handleSearch = async (woId) => {
-  //const variables = { ...queryVariables, woId };
+  const handleSearch = async (woId) => {
+    //const variables = { ...queryVariables, woId };
 
-  /*const content = {
+    const content = {
       woId: parseInt(woId),
       dueDate: null,
       dueDate1: null,
@@ -279,17 +291,17 @@ export const WorkOrders = (props) => {
     };
     await refetch(content);
     setQueryVariables(content);
-  };*/
+  };
 
   /**
    * passes id of work order to pdf page and opens pdf
    * @param {*} index
    */
-  /*const handleItemClick = (index) => {
+  const handleItemClick = (index) => {
     let item = data.getWorkOrder[index];
     ContentView(item.woId);
     props.history.push(`/pdfworkorder/${item.woId}`);
-  };*/
+  };
 
   /**
    * function that deletes selected items
@@ -345,7 +357,7 @@ export const WorkOrders = (props) => {
             </FlexRow>
             <SearchInput
               placeholder="Pretraži po ID-u, Klijentu, Opisu problema ili Statusu"
-              //onSearch={handleSearch}
+              onSearch={handleSearch}
               style={{ marginLeft: "0px", marginTop: "8px" }}
             />
           </ButtonContainer>
@@ -359,12 +371,12 @@ export const WorkOrders = (props) => {
               rowsText={"redaka"}
               defaultPageSize={10}
               columns={columns}
-              data={data && data.getIntention}
+              data={data && data.getWorkOrder}
               getTdProps={(state, rowInfo, column, instance) => {
                 return {
                   onClick: (e) => {
                     if (column.id !== "checkbox" && rowInfo !== undefined) {
-                      //handleItemClick(rowInfo.index);
+                      handleItemClick(rowInfo.index);
                     }
                   },
                 };

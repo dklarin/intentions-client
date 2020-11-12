@@ -11,7 +11,7 @@ import {
 import { useQuery } from "@apollo/react-hooks";
 
 import { useParams } from "react-router-dom";
-//import { GETWORKORDER } from "./gql";
+import { GETWORKORDER } from "./gql";
 import { colorPalette } from "../../style/theme";
 
 export const WorkOrderPDF = () => {
@@ -24,13 +24,13 @@ export const WorkOrderPDF = () => {
   };
 
   const [queryVariables] = useState(initialQueryVariables);
-  /*const { data, refetch } = useQuery(GETWORKORDER, {
+  const { data, refetch } = useQuery(GETWORKORDER, {
     variables: queryVariables,
   });
 
   useEffect(() => {
     refetch(GETWORKORDER);
-  });*/
+  });
 
   let item;
   let carBool = "";

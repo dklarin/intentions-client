@@ -26,7 +26,7 @@ import DatePicker from "../../ui/datePicker";
 import { TextInput } from "../../ui/textInput";
 import { TextArea } from "../../ui/textArea";
 import { ToggleSwitch } from "../../ui";
-//import { GETWORKORDER, UPDATEWORKORDER } from "./gql";
+import { GETWORKORDER, UPDATEWORKORDER } from "./gql";
 import { formatDate, pastFutureDates, viewDate } from "./functions";
 import { yesNoOptions, statusOptions } from "./options";
 import { colorPalette } from "../../style/theme";

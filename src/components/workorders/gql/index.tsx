@@ -70,29 +70,38 @@ export const UPDATEWORKORDER = gql`
   }
 `;
 
-
-
-/*export const GETINTENTION = gql`
+export const GETWORKORDER = gql`
   query(
-    $id: Int
+    $woId: Int
     $dueDate: Date
     $dueDate1: Date
-    $parisher: String
+    $description: String
+    $clientName: String
+    $status: String
   ) {
-    getIntention(
-      id: $id
+    getWorkOrder(
+      woId: $woId
       dueDate: $dueDate
       dueDate1: $dueDate1
-      parisher: $parisher
-        ) {
-      id
-      parisher
-      intent
+      description: $description
+      clientName: $clientName
+      status: $status
+    ) {
+      woId
+      clientName
+      clientEmail
+      spentTime
+      carBool
+      parkingBool
+      totalAmount
       dueDate
-      paid
+      description
+      material
+      notice
+      status
     }
   }
-`;*/
+`;
 
 export const ADDINTENTION = gql`
 mutation(
@@ -118,6 +127,46 @@ mutation(
   }
 `
 
+export const UPDATEINTENTION = gql`
+mutation(
+  $iId: Int
+  $parisher: String
+  $intent: String
+  $dueDate: Date
+  $paid: Boolean
+  ) {
+    updateIntention(
+      iId: $iId
+      parisher: $parisher
+      intent: $intent
+      dueDate: $dueDate
+      paid: $paid
+    ) {
+      iId
+      parisher
+      intent
+      dueDate
+      paid
+    }
+  }
+`
+
+export const DELETEINTENTION = gql`
+  mutation(
+    $iId: Int
+    ) {
+      removeIntention(
+        iId: $iId
+      ) {
+        iId
+        parisher
+        intent
+        dueDate
+        paid
+      }
+    }
+  `;
+
 export const GETINTENTION = gql`
   query(
     $iId: Int
@@ -140,21 +189,7 @@ export const GETINTENTION = gql`
     }
   `;
 
-export const DELETEINTENTION = gql`
-  mutation(
-    $iId: Int
-    ) {
-      removeIntention(
-        iId: $iId
-      ) {
-        iId
-        parisher
-        intent
-        dueDate
-        paid
-      }
-    }
-  `;
+
 
 export const GETINTENTIONS = gql`
   query{

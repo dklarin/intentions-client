@@ -10,6 +10,7 @@ import {
   WorkOrderPDF,
   Intentions,
   IntentionNew,
+  IntentionUpdate,
 } from "../components/workorders";
 import { Users, UserNew, UserChange } from "../components/admin";
 import { NotFound } from "./Notfound";
@@ -23,9 +24,10 @@ export const Routes = () => {
       <PrivateRoute path="/workorders" component={WorkOrders} />
       <PrivateRoute path="/intentions" component={Intentions} />
       <PrivateRoute path="/newintention" component={IntentionNew} />
-      {/*<PrivateRoute path="/newworkorder" component={WorkOrderNew} />
+      <PrivateRoute path="/updateintention/:id" component={IntentionUpdate} />
+      <PrivateRoute path="/newworkorder" component={WorkOrderNew} />
       <PrivateRoute path="/changeworkorder/:id" component={WorkOrderChange} />
-  <PrivateRoute path="/pdfworkorder/:id" component={WorkOrderPDF} />*/}
+      <PrivateRoute path="/pdfworkorder/:id" component={WorkOrderPDF} />
       {/* ******************************************** */}
       <AdminPrivateRoute path="/newuser" component={UserNew} />
       <PrivateRoute path="/changeuser/:id" component={UserChange} />)
