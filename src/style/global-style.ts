@@ -51,19 +51,21 @@ export const FlexColumn = styled.div`
 export const FlexContainer = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
 `;
 
 export const Header = styled.div`
-  width: 100%;
+  width: 50%;
   height: 20px;
   background-color: gray;
+  border: 1px solid #999;
+  border-radius: 5px;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
     Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 `;
 
 export const Container = styled.div`
-  width: 100%;
+  width: 50%;
   height: 400px;
   border: 1px solid #999;
   border-radius: 5px;
@@ -76,7 +78,7 @@ export const Container = styled.div`
 export const ResponsiveFlexRow = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: flex-start;
+  justify-content: center;
   padding: 0rem;
   @media only screen and (max-width: 600px) {
     display: flex;
@@ -87,7 +89,7 @@ export const ResponsiveFlexRow = styled.div`
 `;
 
 export const ButtonContainer = styled.div`
-  width: 100%;
+  width: 50%;
   height: 80px;
 `;
 

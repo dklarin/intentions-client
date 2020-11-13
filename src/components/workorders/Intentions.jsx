@@ -32,9 +32,8 @@ export const Intentions = (props) => {
 
   const initialQueryVariables = {
     iId: null,
-    //dueDate: pastFutureDates(-1095),
+    dueDate: pastFutureDates(-1095),
     dueDate1: pastFutureDates(1),
-    dueDate: null,
     parisher: "",
   };
   const [queryVariables, setQueryVariables] = useState(initialQueryVariables);
@@ -259,7 +258,8 @@ export const Intentions = (props) => {
     const content = {
       dueDate: formatDate(addDays(fromDate, -1)),
       dueDate1: formatDate(addDays(toDate, 0)),
-      woId: null,
+      iId: null,
+      parisher: "",
     };
     await refetch(content);
     setQueryVariables(content);
@@ -269,15 +269,14 @@ export const Intentions = (props) => {
   /**
    * search by woid, client, description or status
    */
-  const handleSearch = async (woId) => {
+  const handleSearch = async (iId) => {
     //const variables = { ...queryVariables, woId };
 
     const content = {
-      woId: parseInt(woId),
+      iId: parseInt(iId),
       dueDate: null,
       dueDate1: null,
-      description: woId,
-      clientName: woId,
+      parisher: iId,
     };
     await refetch(content);
     setQueryVariables(content);
@@ -288,9 +287,9 @@ export const Intentions = (props) => {
    * @param {*} index
    */
   const handleItemClick = (index) => {
-    let item = data.getWorkOrder[index];
-    ContentView(item.woId);
-    props.history.push(`/pdfworkorder/${item.woId}`);
+    let item = data.getIntention[index];
+    ContentView(item.iId);
+    props.history.push(`/pdfworkorder/${item.iId}`);
   };
 
   /**

@@ -11,40 +11,76 @@ import {
 import { useQuery } from "@apollo/react-hooks";
 
 import { useParams } from "react-router-dom";
-import { GETWORKORDER } from "./gql";
+import { GETWORKORDER, GETINTENTION } from "./gql";
 import { colorPalette } from "../../style/theme";
+import { pastFutureDates, viewDate } from "./functions";
 
 export const WorkOrderPDF = () => {
   let { id } = useParams();
 
-  const initialQueryVariables = {
+  /*const initialQueryVariables = {
     woId: null,
     dueDate: "2004-12-03",
     dueDate1: "2020-12-01",
+  };*/
+
+  const initialQueryVariables = {
+    iId: null,
+    dueDate: pastFutureDates(-1095),
+    dueDate1: pastFutureDates(1),
+    parisher: "",
   };
 
   const [queryVariables] = useState(initialQueryVariables);
-  const { data, refetch } = useQuery(GETWORKORDER, {
+  /*const { data, refetch } = useQuery(GETWORKORDER, {
+    variables: queryVariables,
+  });*/
+
+  const { data, refetch, error } = useQuery(GETINTENTION, {
     variables: queryVariables,
   });
 
-  useEffect(() => {
+  /*useEffect(() => {
     refetch(GETWORKORDER);
+  });*/
+
+  useEffect(() => {
+    refetch(GETINTENTION);
   });
 
-  let item;
+  /* let item;
   let carBool = "";
   let parkingBool = "";
-  let spentTime = "";
+  let spentTime = "";*/
 
-  if (data && data.getWorkOrder) {
+  let intention;
+  let dueDate = null;
+  let parisher = "";
+  let intent = "";
+  let paid = false;
+
+  if (data && data.getIntention) {
+    intention = data.getIntention[id - 1];
+
+    parisher = intention.parisher;
+
+    dueDate = new Date(viewDate(intention.dueDate));
+
+    intent = intention.intent;
+    paid = intention.paid;
+  }
+
+  /* if (data && data.getWorkOrder) {
     item = data.getWorkOrder[id - 1];
     carBool = item.carBool;
     parkingBool = item.parkingBool;
     spentTime = item.spentTime;
-  }
+  }*/
 
-  if (parseInt(spentTime) <= 15) {
+  let helpPaid;
+  paid === true ? (helpPaid = "Da") : (helpPaid = "Ne");
+
+  /*if (parseInt(spentTime) <= 15) {
     spentTime = "1/4 sata";
   } else if (parseInt(spentTime) > 15 && parseInt(spentTime) <= 30) {
     spentTime = "0.5 sata";
@@ -60,9 +96,9 @@ export const WorkOrderPDF = () => {
     spentTime = "1 + 3/4 sata";
   } else if (parseInt(spentTime) > 105 && parseInt(spentTime) <= 120) {
     spentTime = "2 sata";
-  }
+  }*/
 
-  return data && data.getWorkOrder ? (
+  return data && data.getIntention ? (
     <div>
       <PageContent>
         <StyledHeaderContainer>
@@ -80,30 +116,30 @@ export const WorkOrderPDF = () => {
           Podaci o klijentu
         </StyledTitleCard>
         <StyledGridContainerTop>
-          <div>Ime i prezime (naziv):</div>
-          <div>{item.clientName}</div>
+          <div>Župljanin:</div>
+          <div>{intention.parisher}</div>
         </StyledGridContainerTop>
         <StyledGridContainerTop>
-          <div>E-mail:</div>
-          <div>{item.clientEmail}</div>
+          <div>Intencija:</div>
+          <div>{intention.intent}</div>
         </StyledGridContainerTop>
         <StyledTitleCard style={{ backgroundColor: colorPalette.primary100 }}>
           Detalji zahtjeva
         </StyledTitleCard>
         <StyledGridContainer>
           <div>Datum:</div>
-          <div>{item.dueDate}</div>
+          <div>{intention.dueDate}</div>
           <div>Redni broj:</div>
           <div>{id}</div>
-          <div style={{ marginTop: "10px" }}>Opis problema:</div>
-          <div style={{ marginTop: "10px" }}>{item.description}</div>
+          <div style={{ marginTop: "10px" }}>Plaćeno:</div>
+          <div style={{ marginTop: "10px" }}>{helpPaid}</div>
           <div style={{ marginTop: "10px" }}>Status:</div>
-          <div style={{ marginTop: "10px" }}>{item.status}</div>
+          {/*<div style={{ marginTop: "10px" }}>{item.status}</div>*/}
         </StyledGridContainer>
         <StyledTitleCard style={{ backgroundColor: colorPalette.primary100 }}>
           Dodatne informacije
         </StyledTitleCard>
-        <StyledGridContainer>
+        {/*<StyledGridContainer>
           <div>Vrijeme utrošeno:</div>
           <div>{spentTime}</div>
           <div>Korištena dostava:</div>
@@ -120,7 +156,7 @@ export const WorkOrderPDF = () => {
               {parseInt(item.totalAmount).toFixed(2)}
             </div>
           </div>
-        </StyledGridContainer>
+        </StyledGridContainer>*/}
       </PageContent>
     </div>
   ) : null;

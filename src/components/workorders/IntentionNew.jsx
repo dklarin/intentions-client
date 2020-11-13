@@ -124,20 +124,19 @@ export const IntentionNew = (props) => {
                   <FlexContainer>
                     <MainHeader style={{ marginTop: "5px" }}>
                       <FlexRow>
-                        <FlexColumn>NOVI NALOG</FlexColumn>
+                        <FlexColumn>NOVA INTENCIJA</FlexColumn>
                         <FlexRow>
                           <FlexColumn>{user}</FlexColumn>
                         </FlexRow>
                       </FlexRow>
                     </MainHeader>
-                    <Header style={{ marginTop: "5px" }}>
-                      PODACI O KLIJENTU
-                    </Header>
+                    <Header style={{ marginTop: "5px" }}>UNOS PODATAKA</Header>
                     <Container>
                       <ResponsiveFlexRow>
                         <FlexColumn>
                           <Label>ID</Label>
                           <TextInput
+                            width="600px"
                             type="text"
                             name="iId"
                             onChange={handleChange}
@@ -149,6 +148,14 @@ export const IntentionNew = (props) => {
                           {errors.jobParking &&
                             touched.jobParking &&
                             errors.jobParking}
+                          <Label>Datum</Label>
+                          <DatePickerInput
+                            onChange={onChange}
+                            value={date}
+                            className="my-custom-datepicker-component"
+                            //{...anyReactInputProps}
+                            autoClose={true}
+                          />
                           <Label>Župljanin</Label>
                           <TextInput
                             type="text"
@@ -175,14 +182,6 @@ export const IntentionNew = (props) => {
                           {errors.jobParking &&
                             touched.jobParking &&
                           errors.jobParking}*/}
-                          <Label>Datum</Label>
-                          <DatePickerInput
-                            onChange={onChange}
-                            value={date}
-                            className="my-custom-datepicker-component"
-                            //{...anyReactInputProps}
-                            autoClose={true}
-                          />
 
                           {/*<DatePicker onChange={onChange} value={date} />*/}
                           <Label>Intencija</Label>

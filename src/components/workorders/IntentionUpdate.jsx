@@ -23,8 +23,15 @@ import { TextInput } from "../../ui/textInput";
 import { Button } from "../../ui/button";
 import { DatePicker, DatePickerInput } from "rc-datepicker";
 import "rc-datepicker/lib/style.css";
+import Select from "react-select";
+import "rc-datepicker/node_modules/moment/locale/hr.js";
 
 const date = new Date();
+
+const options = [
+  { value: true, label: "Da" },
+  { value: false, label: "Ne" },
+];
 
 export const IntentionUpdate = (props) => {
   const user = localStorage.getItem("username");
@@ -37,13 +44,10 @@ export const IntentionUpdate = (props) => {
   };
 
   const [queryVariables] = useState(initialQueryVariables);
-  const { data, refetch } = useQuery(GETINTENTION, {
+  const { data } = useQuery(GETINTENTION, {
     variables: queryVariables,
   });
   const [update] = useMutation(UPDATEINTENTION);
-  const [datum, setDatum] = useState(new Date());
-  const [ids, setIds] = useState();
-  const [pariser, setPariser] = useState("");
 
   let intention;
   let dueDate = null;
@@ -51,47 +55,19 @@ export const IntentionUpdate = (props) => {
   let intent = "";
   let paid = false;
 
-  //useEffect(() => {
-  /*if (data && data.getIntention) {
-      setIds(data.getIntention.length + 1);
-      intention = data.getIntention[id - 1];
-      setPariser();
-    }*/
-  /*refetch(GETINTENTION);
-  }, [data]);*/
-
-  /*useEffect(() => {
-    refetch(queryVariables);
-  });*/
-
   if (data && data.getIntention) {
-    console.log("Baza: " + ids);
-    console.log("Veličina: " + data.getIntention.length);
     intention = data.getIntention[id - 1];
-    //intention = data.getIntention[ids - 1];
+
     parisher = intention.parisher;
 
-    //console.log(intention.length);
     dueDate = new Date(viewDate(intention.dueDate));
-    //parisher = intention.parisher;
+
     intent = intention.intent;
-    //paid = intention.paid;
+    paid = intention.paid;
   }
 
-  //console.log(id);
-
-  /*useEffect(() => {
-    refetch(GETINTENTION);
-  });*/
-
-  /*useEffect(() => {
-    refetch(queryVariables);
-  }, []);*/
-
-  const onChange = (jsDate, dateString) => {
-    //setDatum(jsDate);
-    //console.log(jsDate);
-  };
+  let paidSelect;
+  paid === true ? (paidSelect = options[0]) : (paidSelect = options[1]);
 
   return data && data.getIntention ? (
     <div>
@@ -104,17 +80,30 @@ export const IntentionUpdate = (props) => {
           paid: paid,
         }}
         onSubmit={(values, { setSubmitting }) => {
+          let helpDate;
+          if (values.newDate === undefined) {
+            helpDate = dueDate;
+          } else {
+            helpDate = values.newDate;
+          }
+
+          let helpPaid = paid;
+          if (values.newPaid !== undefined) {
+            helpPaid = values.newPaid;
+          }
+
           const content = {
             iId: parseInt(values.iId),
-            dueDate: values.newDate,
+            dueDate: helpDate,
             parisher: values.parisher,
             intent: values.intent,
-            paid: true,
+            paid: helpPaid,
           };
+
+          setSubmitting(false);
 
           update({ variables: content });
           props.history.push("/intentions");
-          setSubmitting(false);
         }}
       >
         {({
@@ -142,6 +131,7 @@ export const IntentionUpdate = (props) => {
                         </FlexRow>
                       </FlexRow>
                     </MainHeader>
+                    <Header style={{ marginTop: "5px" }}>UNOS PODATAKA</Header>
                     <Container>
                       <ResponsiveFlexRow>
                         <FlexColumn>
@@ -193,6 +183,16 @@ export const IntentionUpdate = (props) => {
                           {errors.jobParking &&
                             touched.jobParking &&
                             errors.jobParking}
+
+                          <Label>Plaćeno</Label>
+                          <Select
+                            options={options}
+                            defaultValue={paidSelect}
+                            //onChange={onPaid}
+                            onChange={(paid) =>
+                              setFieldValue("newPaid", paid.value)
+                            }
+                          />
                         </FlexColumn>
                       </ResponsiveFlexRow>
                     </Container>
