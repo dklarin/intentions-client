@@ -42,16 +42,7 @@ export const Sidebar = () => {
   return (
     <StyledProSidebar collapsed={collapsed}>
       <Menu iconShape="square">
-        <SubMenu title="Radni nalozi" defaultOpen>
-          <MenuItem>
-            Lista radnih naloga
-            <Link to="/workorders" />
-          </MenuItem>
-          <MenuItem>
-            Novi nalog <Link to="/newworkorder" />
-          </MenuItem>
-        </SubMenu>
-        <SubMenu title="Radni nalozi" defaultOpen>
+        <SubMenu title="Intencije" defaultOpen>
           <MenuItem>
             Lista intencija
             <Link to="/intentions" />
@@ -77,7 +68,7 @@ export const Sidebar = () => {
           <div />
         )}
         <MenuItem>
-          Logout
+          Odjava
           <Link
             to="/"
             onClick={() => {

@@ -4,36 +4,27 @@ import { PrivateRoute } from "./PrivateRoute";
 import { AdminPrivateRoute } from "./AdminPrivateRoute";
 import { Login } from "../components/login/Login";
 import {
-  WorkOrders,
-  WorkOrderNew,
-  WorkOrderChange,
-  WorkOrderPDF,
+  IntentionPDF,
   Intentions,
   IntentionNew,
   IntentionUpdate,
 } from "../components/workorders";
 import { Users, UserNew, UserChange } from "../components/admin";
-import { NotFound } from "./Notfound";
 
 export const Routes = () => {
   return (
     <Switch>
-      <Route exact path="/" render={() => <Redirect to="/workorders" />} />
+      <Route exact path="/" render={() => <Redirect to="/intentions" />} />
       <Route path="/login" component={Login} />
       {/* ******************************************** */}
-      <PrivateRoute path="/workorders" component={WorkOrders} />
       <PrivateRoute path="/intentions" component={Intentions} />
       <PrivateRoute path="/newintention" component={IntentionNew} />
       <PrivateRoute path="/updateintention/:id" component={IntentionUpdate} />
-      <PrivateRoute path="/newworkorder" component={WorkOrderNew} />
-      <PrivateRoute path="/changeworkorder/:id" component={WorkOrderChange} />
-      <PrivateRoute path="/pdfworkorder/:id" component={WorkOrderPDF} />
+      <PrivateRoute path="/pdfintention/:id" component={IntentionPDF} />
       {/* ******************************************** */}
       <AdminPrivateRoute path="/newuser" component={UserNew} />
       <PrivateRoute path="/changeuser/:id" component={UserChange} />)
       <AdminPrivateRoute path="/users" component={Users} />
-      {/*} <Route path="/notfound" component={NotFound} />
-      <Route path="*" render={() => <Redirect to="/notfound" />} />*/}
     </Switch>
   );
 };

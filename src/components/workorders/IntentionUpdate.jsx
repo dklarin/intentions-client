@@ -21,12 +21,11 @@ import {
 } from "../../style/global-style";
 import { TextInput } from "../../ui/textInput";
 import { Button } from "../../ui/button";
-import { DatePicker, DatePickerInput } from "rc-datepicker";
-import "rc-datepicker/lib/style.css";
-import Select from "react-select";
-import "rc-datepicker/node_modules/moment/locale/hr.js";
 
-const date = new Date();
+import Select from "react-select";
+import { DatePickerInput } from "rc-datepicker";
+import "rc-datepicker/lib/style.css";
+import "rc-datepicker/node_modules/moment/locale/hr.js";
 
 const options = [
   { value: true, label: "Da" },
@@ -38,16 +37,22 @@ export const IntentionUpdate = (props) => {
   let { id } = useParams();
   const initialQueryVariables = {
     iId: null,
-    dueDate: null,
+    dueDate: pastFutureDates(-1095),
     dueDate1: pastFutureDates(1),
     parisher: "",
   };
 
   const [queryVariables] = useState(initialQueryVariables);
-  const { data } = useQuery(GETINTENTION, {
+  const { data, refetch } = useQuery(GETINTENTION, {
     variables: queryVariables,
   });
   const [update] = useMutation(UPDATEINTENTION);
+
+  useEffect(() => {
+    refetch(GETINTENTION, {
+      variables: queryVariables,
+    });
+  });
 
   let intention;
   let dueDate = null;
@@ -122,7 +127,6 @@ export const IntentionUpdate = (props) => {
                 <LeftGridContainer />
                 <RightGridContainer>
                   <FlexContainer>
-                    {" "}
                     <MainHeader style={{ marginTop: "5px" }}>
                       <FlexRow>
                         <FlexColumn>IZMJENA INTENCIJE</FlexColumn>
@@ -188,7 +192,6 @@ export const IntentionUpdate = (props) => {
                           <Select
                             options={options}
                             defaultValue={paidSelect}
-                            //onChange={onPaid}
                             onChange={(paid) =>
                               setFieldValue("newPaid", paid.value)
                             }
@@ -196,7 +199,7 @@ export const IntentionUpdate = (props) => {
                         </FlexColumn>
                       </ResponsiveFlexRow>
                     </Container>
-                    <ButtonContainer>
+                    <ButtonContainer style={{ width: "50%" }}>
                       <FlexRow>
                         <Button type="submit" disabled={isSubmitting}>
                           Izmijeni

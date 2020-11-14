@@ -89,7 +89,7 @@ export const ResponsiveFlexRow = styled.div`
 `;
 
 export const ButtonContainer = styled.div`
-  width: 50%;
+  width: 100%;
   height: 80px;
 `;
 

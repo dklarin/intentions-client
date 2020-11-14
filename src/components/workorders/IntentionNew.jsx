@@ -1,9 +1,7 @@
-import React, { useState, useEffect, useLayoutEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useMutation, useQuery } from "@apollo/react-hooks";
 import { Formik } from "formik";
 import Select from "react-select";
-import moment from "moment";
-import axios from "axios";
 import {
   Wrapper,
   GridContainer,
@@ -19,29 +17,18 @@ import {
   ResponsiveFlexRow,
   Label,
 } from "../../style/global-style";
-import { StyledTimePicker } from "./style/workorderchange";
 import { Button } from "../../ui/button";
-//import DatePicker from "../../ui/datePicker";
+
 import { TextInput } from "../../ui/textInput";
-import { TextArea } from "../../ui/textArea";
-import { ToggleSwitch } from "../../ui";
-import { GETINTENTION, ADDINTENTION } from "./gql";
-import { GETCLIENTS } from "./popups/gql";
-import { formatDate, pastFutureDates, dynamicSort } from "./functions";
-import { yesNoOptions, statusOptions } from "./options";
-import { colorPalette } from "../../style/theme";
-import { WorkOrderNewValidation } from "./validation";
-import { PopupClientNew, PopupClientDelete } from "./popups";
-import { DatePicker, DatePickerInput } from "rc-datepicker";
+import { GETINTENTION, CREATEINTENTION } from "./gql";
+
+import { pastFutureDates } from "./functions";
+
+import { DatePickerInput } from "rc-datepicker";
 import "rc-datepicker/lib/style.css";
-//import Select from "react-select";
+import { options } from "./options";
 
 const date = new Date(); // or Date or Moment.js
-
-const options = [
-  { value: true, label: "Da" },
-  { value: false, label: "Ne" },
-];
 
 export const IntentionNew = (props) => {
   const user = localStorage.getItem("username");
@@ -52,17 +39,16 @@ export const IntentionNew = (props) => {
 
   const initialQueryVariables = {
     iId: null,
-    //dueDate: pastFutureDates(-1095),
+    dueDate: pastFutureDates(-1095),
     dueDate1: pastFutureDates(1),
-    dueDate: null,
     parisher: "",
   };
-  const [queryVariables, setQueryVariables] = useState(initialQueryVariables);
-  const { data, refetch, error } = useQuery(GETINTENTION, {
+  const [queryVariables] = useState(initialQueryVariables);
+  const { data } = useQuery(GETINTENTION, {
     variables: queryVariables,
   });
 
-  const [add] = useMutation(ADDINTENTION);
+  const [add] = useMutation(CREATEINTENTION);
 
   useEffect(() => {
     if (data && data.getIntention) {
@@ -153,7 +139,6 @@ export const IntentionNew = (props) => {
                             onChange={onChange}
                             value={date}
                             className="my-custom-datepicker-component"
-                            //{...anyReactInputProps}
                             autoClose={true}
                           />
                           <Label>Župljanin</Label>
@@ -169,21 +154,6 @@ export const IntentionNew = (props) => {
                           {errors.jobParking &&
                             touched.jobParking &&
                             errors.jobParking}
-                          {/*<Label>Datum</Label>
-                          <TextInput
-                            type="text"
-                            name="dueDate"
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            value={values.dueDate}
-                            style={{ width: 200 }}
-                            disabled={false}
-                          />
-                          {errors.jobParking &&
-                            touched.jobParking &&
-                          errors.jobParking}*/}
-
-                          {/*<DatePicker onChange={onChange} value={date} />*/}
                           <Label>Intencija</Label>
                           <TextInput
                             type="text"
@@ -197,25 +167,18 @@ export const IntentionNew = (props) => {
                           {errors.jobParking &&
                             touched.jobParking &&
                             errors.jobParking}
-                          {/*<Label>Plaćeno</Label>
-                          <TextInput
-                            type="text"
-                            name="paid"
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            value={values.paid}
-                            style={{ width: 200 }}
-                            disabled={false}
-                          />
-                          {errors.jobParking &&
-                            touched.jobParking &&
-                          errors.jobParking}*/}
                           <Label>Plaćeno</Label>
-                          <Select options={options} onChange={onPaid} />
+                          <Select
+                            options={options}
+                            onChange={onPaid}
+                            /*onChange={(paid) =>
+                              setFieldValue("paid", paid.value)
+                            }*/
+                          />
                         </FlexColumn>
                       </ResponsiveFlexRow>
                     </Container>
-                    <ButtonContainer>
+                    <ButtonContainer style={{ width: "50%" }}>
                       <FlexRow>
                         <Button type="submit" disabled={isSubmitting}>
                           Dodaj

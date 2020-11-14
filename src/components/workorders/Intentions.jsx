@@ -37,8 +37,14 @@ export const Intentions = (props) => {
     parisher: "",
   };
   const [queryVariables, setQueryVariables] = useState(initialQueryVariables);
-  const { data, refetch, error } = useQuery(GETINTENTION, {
+  const { data, refetch } = useQuery(GETINTENTION, {
     variables: queryVariables,
+  });
+
+  useEffect(() => {
+    refetch(GETINTENTION, {
+      variables: queryVariables,
+    });
   });
 
   const [deleteIntention] = useMutation(DELETEINTENTION);
@@ -57,10 +63,6 @@ export const Intentions = (props) => {
   let keys = [];
   let baseLength;
   let counter = 0;
-
-  useEffect(() => {
-    refetch(queryVariables);
-  });
 
   /********* CHECKBOX TABLE functions and columns *********/
 
@@ -356,7 +358,7 @@ export const Intentions = (props) => {
               pageText={"Stranica"}
               ofText={"od"}
               rowsText={"redaka"}
-              defaultPageSize={10}
+              defaultPageSize={25}
               columns={columns}
               data={data && data.getIntention}
               getTdProps={(state, rowInfo, column, instance) => {
@@ -370,6 +372,7 @@ export const Intentions = (props) => {
               }}
             />
           </Table>
+
           <ButtonContainer>
             <FlexRow>
               <Button

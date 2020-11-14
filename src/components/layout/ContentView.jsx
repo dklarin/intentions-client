@@ -1,7 +1,9 @@
 import * as React from "react";
 import { Routes } from "../../config/routes";
 import { withRouter } from "react-router-dom";
-import { Sidebar } from "./Sidebar";
+//import { Sidebar } from "./Sidebar";
+import { Sidebar } from "./SideBar";
+import "./Sidebar.css";
 
 // Dodaje Sidebar na sve komponente osim na Login komponentu i pdf komponentu
 export const ContentView = withRouter(({ location }) => {
