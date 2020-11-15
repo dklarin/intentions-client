@@ -7,6 +7,9 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { AUTH_TOKEN } from "../../utils/constants";
 
+import { SideBar } from "./SideBar/SideBar";
+import "./SideBar/Sidebar.css";
+
 const StyledProSidebar = styled(ProSidebar)`
   position: fixed;
 `;
@@ -39,8 +42,8 @@ export const Sidebar = () => {
 
   ShowWindowDimensions();
 
-  return (
-    <StyledProSidebar collapsed={collapsed}>
+  return !collapsed ? (
+    <StyledProSidebar>
       <Menu iconShape="square">
         <SubMenu title="Intencije" defaultOpen>
           <MenuItem>
@@ -79,6 +82,8 @@ export const Sidebar = () => {
         </MenuItem>
       </Menu>
     </StyledProSidebar>
+  ) : (
+    <SideBar />
   );
 };
 

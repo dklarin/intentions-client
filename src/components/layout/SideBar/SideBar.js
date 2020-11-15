@@ -1,7 +1,7 @@
 import React from "react";
 import { slide as Menu } from "react-burger-menu";
 
-export const Sidebar = (props) => {
+export const SideBar = (props) => {
   return (
     <Menu>
       <a className="menu-item" href="/intentions">

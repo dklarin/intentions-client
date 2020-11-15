@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useLayoutEffect } from "react";
 import { useMutation, useQuery } from "@apollo/react-hooks";
 import ReactTable from "react-table-6";
 import "react-table-6/react-table.css";
@@ -24,6 +24,10 @@ import { SearchInput } from "../../ui/searchInput";
 import { GETINTENTION, DELETEINTENTION } from "./gql";
 import { formatDate, pastFutureDates } from "./functions";
 import { ContentView } from "../layout/ContentView";
+
+import { SideBar } from "../layout/SideBar/SideBar";
+import "../layout/SideBar/Sidebar.css";
+import styled from "styled-components";
 
 const todaysDate = new Date();
 
@@ -291,7 +295,7 @@ export const Intentions = (props) => {
   const handleItemClick = (index) => {
     let item = data.getIntention[index];
     ContentView(item.iId);
-    props.history.push(`/pdfworkorder/${item.iId}`);
+    props.history.push(`/pdfintention/${item.iId}`);
   };
 
   /**
@@ -310,10 +314,59 @@ export const Intentions = (props) => {
     setState({ selected: {}, selectAll: 0 });
   };
 
-  return (
+  const FullGridContainer = styled.div`
+    grid-column-start: 2;
+    grid-column-end: 7;
+    grid-row-start: 1;
+    grid-row-end: 4;
+  `;
+
+  const SidebarContainer = styled(SideBar)`
+    grid-column-start: 2;
+    grid-column-end: 7;
+    grid-row-start: 1;
+    grid-row-end: 2;
+    overflow-y: hidden;
+  `;
+
+  const SideBarKontejner = styled.div`
+    grid-column-start: 2;
+    grid-column-end: 7;
+    grid-row-start: 1;
+    grid-row-end: 2;
+    overflow-y: hidden;
+  `;
+
+  let collapsed = false;
+  function useWindowSize() {
+    const [size, setSize] = useState([0, 0]);
+    useLayoutEffect(() => {
+      function updateSize() {
+        setSize([window.innerWidth, window.innerHeight]);
+      }
+      window.addEventListener("resize", updateSize);
+      updateSize();
+      return () => window.removeEventListener("resize", updateSize);
+    }, []);
+
+    return size;
+  }
+
+  function ShowWindowDimensions() {
+    const [width] = useWindowSize();
+
+    if (width < 1128) {
+      collapsed = true;
+    }
+  }
+
+  ShowWindowDimensions();
+
+  return !collapsed ? (
     <Wrapper>
       <GridContainer>
         <LeftGridContainer></LeftGridContainer>
+
         <RightGridContainer>
           <MainHeader style={{ marginTop: "5px" }}>
             <FlexRow>
@@ -392,5 +445,171 @@ export const Intentions = (props) => {
         </RightGridContainer>
       </GridContainer>
     </Wrapper>
+  ) : (
+    <Wrapper>
+      <GridContainer>
+        <div style={{ marginLeft: "12px", marginTop: "80px", width: "460px" }}>
+          <MainHeader style={{ marginTop: "5px" }}>
+            <FlexRow>
+              <FlexColumn>INTENCIJE</FlexColumn>
+              <FlexRow>
+                <FlexColumn>{user}</FlexColumn>
+              </FlexRow>
+            </FlexRow>
+          </MainHeader>
+          <ButtonContainer style={{ marginTop: "50px", height: "85px" }}>
+            <FlexRow>
+              <DateFromPicker
+                value={dateFrom}
+                onChange={handleDateFrom}
+                width={220}
+                date={formatDate(dateFrom)}
+              />
+
+              <DateToPicker
+                value={dateTo}
+                onChange={handleDateTo}
+                width={220}
+                date={formatDate(dateTo)}
+              />
+              <SearchButton
+                onClick={handleSearchDates}
+                children="Traži"
+                style={{ marginLeft: "8px" }}
+              />
+            </FlexRow>
+            <SearchInput
+              placeholder="Pretraži po ID-u, Klijentu, Opisu problema ili Statusu"
+              onSearch={handleSearch}
+              style={{ marginLeft: "0px", marginTop: "8px" }}
+            />
+          </ButtonContainer>
+          <Table>
+            <ReactTable
+              previousText={"Prethodna"}
+              nextText={"Sljedeća"}
+              noDataText={"Nema podataka"}
+              pageText={"Stranica"}
+              ofText={"od"}
+              rowsText={"redaka"}
+              defaultPageSize={25}
+              columns={columns}
+              data={data && data.getIntention}
+              getTdProps={(state, rowInfo, column, instance) => {
+                return {
+                  onClick: (e) => {
+                    if (column.id !== "checkbox" && rowInfo !== undefined) {
+                      handleItemClick(rowInfo.index);
+                    }
+                  },
+                };
+              }}
+            />
+          </Table>
+
+          <ButtonContainer>
+            <FlexRow>
+              <Button
+                onClick={handleDelete}
+                children="Briši"
+                disabled={disableDelete}
+              />
+              <Button
+                onClick={() =>
+                  props.history.push(`/updateintention/${keys[0]}`)
+                }
+                children="Izmijeni"
+                disabled={disableChange}
+              />
+            </FlexRow>
+          </ButtonContainer>
+        </div>
+      </GridContainer>
+    </Wrapper>
   );
+
+  /*return (
+    <Wrapper>
+      <GridContainer>
+        <LeftGridContainer></LeftGridContainer>
+
+        <RightGridContainer>
+          <MainHeader style={{ marginTop: "5px" }}>
+            <FlexRow>
+              <FlexColumn>INTENCIJE</FlexColumn>
+              <FlexRow>
+                <FlexColumn>{user}</FlexColumn>
+              </FlexRow>
+            </FlexRow>
+          </MainHeader>
+          <ButtonContainer style={{ marginTop: "50px", height: "85px" }}>
+            <FlexRow>
+              <DateFromPicker
+                value={dateFrom}
+                onChange={handleDateFrom}
+                width={220}
+                date={formatDate(dateFrom)}
+              />
+
+              <DateToPicker
+                value={dateTo}
+                onChange={handleDateTo}
+                width={220}
+                date={formatDate(dateTo)}
+              />
+              <SearchButton
+                onClick={handleSearchDates}
+                children="Traži"
+                style={{ marginLeft: "8px" }}
+              />
+            </FlexRow>
+            <SearchInput
+              placeholder="Pretraži po ID-u, Klijentu, Opisu problema ili Statusu"
+              onSearch={handleSearch}
+              style={{ marginLeft: "0px", marginTop: "8px" }}
+            />
+          </ButtonContainer>
+          <Table>
+            <ReactTable
+              previousText={"Prethodna"}
+              nextText={"Sljedeća"}
+              noDataText={"Nema podataka"}
+              pageText={"Stranica"}
+              ofText={"od"}
+              rowsText={"redaka"}
+              defaultPageSize={25}
+              columns={columns}
+              data={data && data.getIntention}
+              getTdProps={(state, rowInfo, column, instance) => {
+                return {
+                  onClick: (e) => {
+                    if (column.id !== "checkbox" && rowInfo !== undefined) {
+                      handleItemClick(rowInfo.index);
+                    }
+                  },
+                };
+              }}
+            />
+          </Table>
+
+          <ButtonContainer>
+            <FlexRow>
+              <Button
+                onClick={handleDelete}
+                children="Briši"
+                disabled={disableDelete}
+              />
+              <Button
+                onClick={() =>
+                  props.history.push(`/updateintention/${keys[0]}`)
+                }
+                children="Izmijeni"
+                disabled={disableChange}
+              />
+            </FlexRow>
+          </ButtonContainer>
+        </RightGridContainer>
+      </GridContainer>
+    </Wrapper>
+  );*/
 };

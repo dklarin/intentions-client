@@ -8,6 +8,7 @@ import {
   Intentions,
   IntentionNew,
   IntentionUpdate,
+  IntentionTest,
 } from "../components/workorders";
 import { Users, UserNew, UserChange } from "../components/admin";
 
@@ -21,6 +22,7 @@ export const Routes = () => {
       <PrivateRoute path="/newintention" component={IntentionNew} />
       <PrivateRoute path="/updateintention/:id" component={IntentionUpdate} />
       <PrivateRoute path="/pdfintention/:id" component={IntentionPDF} />
+      <PrivateRoute path="/testintention/" component={IntentionTest} />
       {/* ******************************************** */}
       <AdminPrivateRoute path="/newuser" component={UserNew} />
       <PrivateRoute path="/changeuser/:id" component={UserChange} />)

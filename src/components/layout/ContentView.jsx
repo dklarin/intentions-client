@@ -1,9 +1,10 @@
 import * as React from "react";
 import { Routes } from "../../config/routes";
 import { withRouter } from "react-router-dom";
-//import { Sidebar } from "./Sidebar";
-import { Sidebar } from "./SideBar";
-import "./Sidebar.css";
+import { Sidebar } from "./Sidebar";
+
+import { SideBar } from "./SideBar/SideBar";
+import "./SideBar/Sidebar.css";
 
 // Dodaje Sidebar na sve komponente osim na Login komponentu i pdf komponentu
 export const ContentView = withRouter(({ location }) => {
@@ -13,8 +14,10 @@ export const ContentView = withRouter(({ location }) => {
     <div>
       {location.pathname !== "/login" &&
         location.pathname !== "/notfound" &&
-        location.pathname !== `/pdfworkorder/${id}` && <Sidebar />}
+        location.pathname !== `/pdfintention/${id}` && <Sidebar />}
       <Routes />
     </div>
   );
 });
+
+//
