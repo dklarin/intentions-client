@@ -43,16 +43,10 @@ export const IntentionUpdate = (props) => {
   };
 
   const [queryVariables] = useState(initialQueryVariables);
-  const { data, refetch } = useQuery(GETINTENTION, {
+  const { data } = useQuery(GETINTENTION, {
     variables: queryVariables,
   });
   const [update] = useMutation(UPDATEINTENTION);
-
-  useEffect(() => {
-    refetch(GETINTENTION, {
-      variables: queryVariables,
-    });
-  });
 
   let intention;
   let dueDate = null;

@@ -44,7 +44,7 @@ export const IntentionNew = (props) => {
     parisher: "",
   };
   const [queryVariables] = useState(initialQueryVariables);
-  const { data } = useQuery(GETINTENTION, {
+  const { data, refetch } = useQuery(GETINTENTION, {
     variables: queryVariables,
   });
 
@@ -56,6 +56,10 @@ export const IntentionNew = (props) => {
       //console.log("Intencija broj: " + data.getIntention.length);
     }
   }, [data]);
+
+  useEffect(() => {
+    refetch(GETINTENTION);
+  });
 
   const onChange = (jsDate, dateString) => {
     setDatum(jsDate);
@@ -185,7 +189,7 @@ export const IntentionNew = (props) => {
                         </Button>
                         <Button
                           type="button"
-                          onClick={() => props.history.push("/workorders")}
+                          onClick={() => props.history.push("/intentions")}
                         >
                           Odustani
                         </Button>

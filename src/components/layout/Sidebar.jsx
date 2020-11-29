@@ -51,6 +51,10 @@ export const Sidebar = () => {
             <Link to="/intentions" />
           </MenuItem>
           <MenuItem>
+            Kalendar intencija
+            <Link to="/calendar" />
+          </MenuItem>
+          <MenuItem>
             Nova intencija
             <Link to="/newintention" />
           </MenuItem>
@@ -61,7 +65,6 @@ export const Sidebar = () => {
               Lista korisnika
               <Link to="/users" />
             </MenuItem>
-
             <MenuItem>
               Novi korisnik
               <Link to="/newuser" />

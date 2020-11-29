@@ -25,10 +25,6 @@ import { GETINTENTION, DELETEINTENTION } from "./gql";
 import { formatDate, pastFutureDates } from "./functions";
 import { ContentView } from "../layout/ContentView";
 
-import { SideBar } from "../layout/SideBar/SideBar";
-import "../layout/SideBar/Sidebar.css";
-import styled from "styled-components";
-
 const todaysDate = new Date();
 
 export const Intentions = (props) => {
@@ -37,7 +33,7 @@ export const Intentions = (props) => {
   const initialQueryVariables = {
     iId: null,
     dueDate: pastFutureDates(-1095),
-    dueDate1: pastFutureDates(1),
+    dueDate1: pastFutureDates(365),
     parisher: "",
   };
   const [queryVariables, setQueryVariables] = useState(initialQueryVariables);
@@ -222,7 +218,6 @@ export const Intentions = (props) => {
 
   if (data && data.getIntention) {
     baseLength = data.getIntention.length;
-    console.log(data.Intention);
   }
 
   if (keys.length > 1) {
@@ -314,29 +309,6 @@ export const Intentions = (props) => {
     setState({ selected: {}, selectAll: 0 });
   };
 
-  const FullGridContainer = styled.div`
-    grid-column-start: 2;
-    grid-column-end: 7;
-    grid-row-start: 1;
-    grid-row-end: 4;
-  `;
-
-  const SidebarContainer = styled(SideBar)`
-    grid-column-start: 2;
-    grid-column-end: 7;
-    grid-row-start: 1;
-    grid-row-end: 2;
-    overflow-y: hidden;
-  `;
-
-  const SideBarKontejner = styled.div`
-    grid-column-start: 2;
-    grid-column-end: 7;
-    grid-row-start: 1;
-    grid-row-end: 2;
-    overflow-y: hidden;
-  `;
-
   let collapsed = false;
   function useWindowSize() {
     const [size, setSize] = useState([0, 0]);
@@ -411,7 +383,7 @@ export const Intentions = (props) => {
               pageText={"Stranica"}
               ofText={"od"}
               rowsText={"redaka"}
-              defaultPageSize={25}
+              defaultPageSize={10}
               columns={columns}
               data={data && data.getIntention}
               getTdProps={(state, rowInfo, column, instance) => {

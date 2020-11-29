@@ -28,17 +28,22 @@ const authLink = setContext((_, { headers }) => {
   };
 });
 
+
 const wsLink = new WebSocketLink({
   uri: "ws://localhost:4000/graphql",
   //uri: "wss://dane-server.herokuapp.com/graphql",
-
+  
   options: {
+    lazy: true,
     reconnect: true,
     connectionParams: {
       authToken: localStorage.getItem(AUTH_TOKEN),
     },
   },
 });
+
+
+
 
 const link = split(
   ({ query }) => {
