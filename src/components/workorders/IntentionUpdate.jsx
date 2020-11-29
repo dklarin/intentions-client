@@ -38,7 +38,7 @@ export const IntentionUpdate = (props) => {
   const initialQueryVariables = {
     iId: null,
     dueDate: pastFutureDates(-1095),
-    dueDate1: pastFutureDates(1),
+    dueDate1: pastFutureDates(365),
     parisher: "",
   };
 

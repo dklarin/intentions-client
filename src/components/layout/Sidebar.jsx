@@ -8,11 +8,20 @@ import { Link } from "react-router-dom";
 import { AUTH_TOKEN } from "../../utils/constants";
 
 import { SideBar } from "./SideBar/SideBar";
-import "./SideBar/Sidebar.css";
+//import "./SideBar/Sidebar.css";
 
 const StyledProSidebar = styled(ProSidebar)`
   position: fixed;
 `;
+
+/*const StyledDiv = styled.div`
+  position: fixed;
+  width: 200px;
+  height: 45px;
+  left: 0px;
+  top: 0px;
+  background-color: white;
+`;*/
 
 export const Sidebar = () => {
   const role = localStorage.getItem("role");
@@ -86,7 +95,18 @@ export const Sidebar = () => {
       </Menu>
     </StyledProSidebar>
   ) : (
-    <SideBar />
+    <div>
+      <SideBar />
+      <div
+        style={{
+          position: "fixed",
+          height: "60px",
+          width: "472px",
+          background: "white",
+          zIndex: 1,
+        }}
+      />
+    </div>
   );
 };
 
