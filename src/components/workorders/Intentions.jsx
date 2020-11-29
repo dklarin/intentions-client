@@ -337,8 +337,7 @@ export const Intentions = (props) => {
   return !collapsed ? (
     <Wrapper>
       <GridContainer>
-        <LeftGridContainer></LeftGridContainer>
-
+        <LeftGridContainer />
         <RightGridContainer>
           <MainHeader style={{ marginTop: "5px" }}>
             <FlexRow>
@@ -356,7 +355,6 @@ export const Intentions = (props) => {
                 width={220}
                 date={formatDate(dateFrom)}
               />
-
               <DateToPicker
                 value={dateTo}
                 onChange={handleDateTo}
@@ -464,7 +462,7 @@ export const Intentions = (props) => {
               pageText={"Stranica"}
               ofText={"od"}
               rowsText={"redaka"}
-              defaultPageSize={25}
+              defaultPageSize={10}
               columns={columns}
               data={data && data.getIntention}
               getTdProps={(state, rowInfo, column, instance) => {

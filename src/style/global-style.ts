@@ -5,6 +5,12 @@ export const Wrapper = styled.div`
   margin-left: 0em;
   width: 100%;
   height: 750px;
+  @media only screen and (max-width: 600px) {
+    margin-top: 0em;
+    margin-left: 0em;
+    width: 100%;
+    height: 700px;
+  }
 `;
 
 export const GridContainer = styled.div`
@@ -55,7 +61,7 @@ export const FlexContainer = styled.div`
 `;
 
 export const Header = styled.div`
-  width: 50%;
+  width: 100%;
   height: 20px;
   background-color: gray;
   border: 1px solid #999;
@@ -65,12 +71,12 @@ export const Header = styled.div`
 `;
 
 export const Container = styled.div`
-  width: 50%;
-  height: 400px;
+  width: 100%;
+  height: 500px;
   border: 1px solid #999;
   border-radius: 5px;
   @media only screen and (max-width: 600px) {
-    height: 100%;
+    height: 440px;
     overflow-x: hidden;
   }
 `;
@@ -78,7 +84,7 @@ export const Container = styled.div`
 export const ResponsiveFlexRow = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  justify-content: flex-start;
   padding: 0rem;
   @media only screen and (max-width: 600px) {
     display: flex;
