@@ -25,11 +25,19 @@ export const LeftGridContainer = styled.div`
   grid-column-end: 3;
   grid-row-start: 1;
   grid-row-end: 4;
+  @media only screen and (max-width: 600px) {
+    margin-left: 0px;
+  }
 `;
 
 export const RightGridContainer = styled.div`
   grid-column: 3 / 7;
   grid-row: 1 / 4;
+  @media only screen and (max-width: 600px) {
+   margin-left: -105px;
+   margin-top: 80px;
+   width: 460px;
+  }
 `;
 
 export const MainHeader = styled.div`

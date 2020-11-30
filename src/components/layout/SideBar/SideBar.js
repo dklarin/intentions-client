@@ -8,14 +8,11 @@ export const SideBar = (props) => {
         <a className="menu-item" href="/intentions">
           Lista intencija
         </a>
+        <a className="menu-item" href="/calendar">
+          Kalendar intencija
+        </a>
         <a className="menu-item" href="/newintention">
           Nova intencija
-        </a>
-        <a className="menu-item" href="/pizzas">
-          Pizzas
-        </a>
-        <a className="menu-item" href="/desserts">
-          Desserts
         </a>
       </Menu>
     </div>

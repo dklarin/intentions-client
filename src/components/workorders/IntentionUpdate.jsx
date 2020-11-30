@@ -27,12 +27,25 @@ import { DatePickerInput } from "rc-datepicker";
 import "rc-datepicker/lib/style.css";
 import "rc-datepicker/node_modules/moment/locale/hr.js";
 
+import styled from "styled-components";
+
 const options = [
   { value: true, label: "Da" },
   { value: false, label: "Ne" },
 ];
 
 export const IntentionUpdate = (props) => {
+  const StyledDatePickerInput = styled(DatePickerInput)`
+    @media only screen and (max-width: 600px) {
+      width: 440px;
+    }
+  `;
+
+  const StyledSelect = styled(Select)`
+    @media only screen and (max-width: 600px) {
+      width: 440px;
+    }
+  `;
   const user = localStorage.getItem("username");
   let { id } = useParams();
   const initialQueryVariables = {
@@ -147,7 +160,7 @@ export const IntentionUpdate = (props) => {
                             touched.jobParking &&
                             errors.jobParking}
                           <Label>Datum</Label>
-                          <DatePickerInput
+                          <StyledDatePickerInput
                             //onChange={onChange}
                             value={values.dueDate}
                             className="my-custom-datepicker-component"
@@ -183,7 +196,7 @@ export const IntentionUpdate = (props) => {
                             errors.jobParking}
 
                           <Label>Plaćeno</Label>
-                          <Select
+                          <StyledSelect
                             options={options}
                             defaultValue={paidSelect}
                             onChange={(paid) =>
@@ -193,7 +206,7 @@ export const IntentionUpdate = (props) => {
                         </FlexColumn>
                       </ResponsiveFlexRow>
                     </Container>
-                    <ButtonContainer style={{ width: "50%" }}>
+                    <ButtonContainer style={{ width: "100%" }}>
                       <FlexRow>
                         <Button type="submit" disabled={isSubmitting}>
                           Izmijeni

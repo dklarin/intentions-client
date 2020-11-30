@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 import { AUTH_TOKEN } from "../../utils/constants";
 
 import { SideBar } from "./SideBar/SideBar";
-//import "./SideBar/Sidebar.css";
+import "./SideBar/Sidebar.css";
 
 const StyledProSidebar = styled(ProSidebar)`
   position: fixed;
@@ -101,9 +101,10 @@ export const Sidebar = () => {
         style={{
           position: "fixed",
           height: "60px",
-          width: "472px",
+          width: "476px",
           background: "white",
           zIndex: 1,
+          borderBottom: "0.2px solid lightgray",
         }}
       />
     </div>

@@ -14,8 +14,8 @@ import { WebSocketLink } from "apollo-link-ws";
 import { getMainDefinition } from "apollo-utilities";
 
 const httpLink = createHttpLink({
-  uri: "http://localhost:4000",
-  //uri: "https://dane-server.herokuapp.com/"
+  //uri: "http://localhost:4000",
+  uri: "https://intentions-server.herokuapp.com/"
 });
 
 const authLink = setContext((_, { headers }) => {
@@ -30,8 +30,8 @@ const authLink = setContext((_, { headers }) => {
 
 
 const wsLink = new WebSocketLink({
-  uri: "ws://localhost:4000/graphql",
-  //uri: "wss://dane-server.herokuapp.com/graphql",
+  //uri: "ws://localhost:4000/graphql",
+  uri: "wss://intentions-server.herokuapp.com/graphql",
   
   options: {
     lazy: true,
