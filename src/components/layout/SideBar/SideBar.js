@@ -4,7 +4,7 @@ import { elastic as Menu } from "react-burger-menu";
 export const SideBar = (props) => {
   return (
     <div>
-      <Menu>
+      <Menu isOpen={props.isOpen}>
         <a className="menu-item" href="/intentions">
           Lista intencija
         </a>

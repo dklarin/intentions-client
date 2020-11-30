@@ -51,9 +51,52 @@ export const Sidebar = () => {
 
   ShowWindowDimensions();
 
-  return (
+  return !collapsed ? (
+    <StyledProSidebar>
+      <Menu iconShape="square">
+        <SubMenu title="Intencije" defaultOpen>
+          <MenuItem>
+            Lista intencija
+            <Link to="/intentions" />
+          </MenuItem>
+          <MenuItem>
+            Kalendar intencija
+            <Link to="/calendar" />
+          </MenuItem>
+          <MenuItem>
+            Nova intencija
+            <Link to="/newintention" />
+          </MenuItem>
+        </SubMenu>
+        {role === "admin" ? (
+          <SubMenu title="Administracija" defaultOpen={true}>
+            <MenuItem>
+              Lista korisnika
+              <Link to="/users" />
+            </MenuItem>
+            <MenuItem>
+              Novi korisnik
+              <Link to="/newuser" />
+            </MenuItem>
+          </SubMenu>
+        ) : (
+          <div />
+        )}
+        <MenuItem>
+          Odjava
+          <Link
+            to="/"
+            onClick={() => {
+              localStorage.removeItem(AUTH_TOKEN);
+              localStorage.clear();
+            }}
+          />
+        </MenuItem>
+      </Menu>
+    </StyledProSidebar>
+  ) : (
     <div>
-      <SideBar isOpen={!collapsed} />
+      <SideBar />
       <div
         style={{
           position: "fixed",
