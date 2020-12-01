@@ -30,8 +30,6 @@ import { options } from "./options";
 
 import styled from "styled-components";
 
-const date = new Date(); // or Date or Moment.js
-
 export const IntentionNew = (props) => {
   const StyledDatePickerInput = styled(DatePickerInput)`
     @media only screen and (max-width: 600px) {
@@ -48,13 +46,12 @@ export const IntentionNew = (props) => {
   const user = localStorage.getItem("username");
 
   const [id, setId] = useState();
-  const [datum, setDatum] = useState(new Date());
   const [paid, setPaid] = useState(false);
 
   const initialQueryVariables = {
     iId: null,
     dueDate: pastFutureDates(-1095),
-    dueDate1: pastFutureDates(1),
+    dueDate1: pastFutureDates(365),
     parisher: "",
   };
   const [queryVariables] = useState(initialQueryVariables);
@@ -74,10 +71,6 @@ export const IntentionNew = (props) => {
     refetch(GETINTENTION);
   });
 
-  const onChange = (jsDate, dateString) => {
-    setDatum(jsDate);
-  };
-
   const onPaid = (item) => {
     setPaid(item.value);
   };
@@ -96,7 +89,7 @@ export const IntentionNew = (props) => {
           const content = {
             iId: id,
             parisher: values.parisher,
-            dueDate: datum,
+            dueDate: values.newDate,
             paid: paid,
             intent: values.intent,
           };
@@ -151,10 +144,11 @@ export const IntentionNew = (props) => {
                             errors.jobParking}
                           <Label>Datum</Label>
                           <StyledDatePickerInput
-                            onChange={onChange}
-                            value={date}
+                            //onChange={onChange}
+                            value={values.dueDate}
                             className="my-custom-datepicker-component"
                             autoClose={true}
+                            onChange={(date) => setFieldValue("newDate", date)}
                           />
                           <Label>Župljanin</Label>
                           <TextInput
