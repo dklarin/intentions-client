@@ -46,7 +46,6 @@ export const IntentionNew = (props) => {
   const user = localStorage.getItem("username");
 
   const [id, setId] = useState();
-  const [paid, setPaid] = useState(false);
 
   const initialQueryVariables = {
     iId: null,
@@ -71,10 +70,6 @@ export const IntentionNew = (props) => {
     refetch(GETINTENTION);
   });
 
-  const onPaid = (item) => {
-    setPaid(item.value);
-  };
-
   return (
     <div>
       <Formik
@@ -86,11 +81,13 @@ export const IntentionNew = (props) => {
           intent: "",
         }}
         onSubmit={(values, { setSubmitting }) => {
+          console.log("Datum: " + values.date || new Date());
+
           const content = {
             iId: id,
             parisher: values.parisher,
-            dueDate: values.newDate,
-            paid: paid,
+            dueDate: values.date !== undefined ? values.date : new Date(),
+            paid: values.paid,
             intent: values.intent,
           };
 
@@ -144,11 +141,10 @@ export const IntentionNew = (props) => {
                             errors.jobParking}
                           <Label>Datum</Label>
                           <StyledDatePickerInput
-                            //onChange={onChange}
                             value={values.dueDate}
                             className="my-custom-datepicker-component"
                             autoClose={true}
-                            onChange={(date) => setFieldValue("newDate", date)}
+                            onChange={(date) => setFieldValue("date", date)}
                           />
                           <Label>Župljanin</Label>
                           <TextInput
@@ -179,10 +175,9 @@ export const IntentionNew = (props) => {
                           <Label>Plaćeno</Label>
                           <StyledSelect
                             options={options}
-                            onChange={onPaid}
-                            /*onChange={(paid) =>
+                            onChange={(paid) =>
                               setFieldValue("paid", paid.value)
-                            }*/
+                            }
                           />
                         </FlexColumn>
                       </ResponsiveFlexRow>

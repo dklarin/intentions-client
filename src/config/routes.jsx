@@ -9,7 +9,7 @@ import {
   IntentionNew,
   IntentionUpdate,
   IntentionsCalendar,
-} from "../components/workorders";
+} from "../components/intentions";
 import { Users, UserNew, UserChange } from "../components/admin";
 
 export const Routes = () => {
