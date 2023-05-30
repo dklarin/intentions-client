@@ -25,8 +25,8 @@ export const Routes = () => {
       <PrivateRoute path="/pdfintention/:id" component={IntentionPDF} />
       {/* ******************************************** */}
       <AdminPrivateRoute path="/newuser" component={UserNew} />
-      <PrivateRoute path="/changeuser/:id" component={UserChange} />)
-      <AdminPrivateRoute path="/users" component={Users} />
+      <PrivateRoute path="/changeuser/:id" component={UserChange} />
+      <AdminPrivateRoute path="/users" component={Users} />   
     </Switch>
   );
 };

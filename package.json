@@ -51,7 +51,8 @@
     "yup": "^0.29.2"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "_comment1": "start: react-scripts start",
+    "start": "react-scripts --openssl-legacy-provider start",
     "predeploy": "yarn run build",
     "deploy": "gh-pages -d build",
     "build": "react-scripts build",

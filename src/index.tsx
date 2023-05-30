@@ -14,8 +14,8 @@ import { WebSocketLink } from "apollo-link-ws";
 import { getMainDefinition } from "apollo-utilities";
 
 const httpLink = createHttpLink({
-  //uri: "http://localhost:4000",
-  uri: "https://intentions-server.herokuapp.com/"
+  uri: "http://localhost:4000",
+  //uri: "https://intentions-server.herokuapp.com/"
 });
 
 const authLink = setContext((_, { headers }) => {
